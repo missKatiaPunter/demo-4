@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Document</title>
 </head>
 <body>
-    <h1>Frontbackend Tutorial</h1>
-    <form id="user-get-form">
-        <input type="submit">
-    </form>
-    <!-- C12 task. Add a user -->
-    <h2>C12 task. Add a new user</h2>
-    <form id="add-user-form">
+    <h1>Minimalist READ-CREATE demo for Assignment 1</h1>
+
+
+    <h2>C12 task sample. Add a new user</h2>
+
+    <form id="add-user-form" class="add-user-form">
         <label for="username">User name:</label>
         <input type="text" id="username" name="username"><br>
         <label for="email">Email:</label>
@@ -25,16 +25,17 @@
     <div id="added-user-shown"></div>
 
     <hr>
+
+    <h2>Made up task to show all users</h2>
+
+    <form id="user-get-form">
+        <input type="submit">
+    </form>
+    <div id="show-users"></div>
+
+    <hr>
+
     <script>
-        const myButton = document.getElementById("user-get-form");
-        myButton.addEventListener("submit", event => {
-            event.preventDefault();
-            fetch('/api/users')
-                .then(res => res.json())
-                .then(res => {
-                    console.log(res);
-                });
-        });
 
         const formAddUser = document.getElementById('add-user-form');
         formAddUser.addEventListener('submit', event => {
@@ -52,6 +53,27 @@
             }).then(res => res.json())
             .then(res => console.log("here is res", res))
             .catch((err) => console.log("error goes here",err));
+        });
+
+    const myButton = document.getElementById("user-get-form");
+    myButton.addEventListener("submit", event => {
+        event.preventDefault();
+            fetch('/api/users')
+            .then(res => res.json())
+            .then(res => {
+                const container = document.getElementById('show-users');
+                const heading = document.createElement("h1");
+                heading.textContent = "Showing Users";
+                container.appendChild(heading);
+                const ol=document.createElement('ol');
+                container.appendChild(ol);
+                res.forEach(user => {
+                    const li = document.createElement('li');
+                    const { name, email } = user;
+                    li.appendChild(document.createTextNode(name + ', ' + email));
+                    ol.appendChild(li);
+                });
+            });
         });
     </script>
 </body>
