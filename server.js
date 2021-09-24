@@ -1,11 +1,18 @@
 const express = require("express");
 const app = express();
 const dba = require("./rundbbuild.js");
+const query = require("./dbqueries.js");
 let db = dba.connect();
 app.use(express.json());
 
-app.get('/users', (req, res) => {
-    res.send("Here will be users!");
+app.get('/api/users', function(req, res) {
+    console.log("This is the res",res);
+    query.getUsers(db, req, res);
+});
+
+app.post('/api/create-user', function(req,res) {
+    console.log("This is the req",req.body);
+    query.createUser(db,req,res);
 });
 
 app.get('/', (req, res) => {

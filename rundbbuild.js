@@ -12,7 +12,7 @@ const connect = () => {
 
 function init(db) {
     db.serialize(() => {
-        db.run('create table users (userid INTEGER PRIMARY KEY, name TEXT);', (err) => {
+        db.run('create table users (userid INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT);', (err) => {
           if (err) { console.log(err) } else { console.log("Creating table users") }
         });
   });
